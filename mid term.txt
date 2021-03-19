@@ -1,0 +1,77 @@
+int quake[5]={1,0,1,0,1}; //pattern of the earth quake 
+int xtiltread[5]={0};  // reads the tilt for the x axis
+int ytiltread[5]={0};// reads the tilt for the y axis
+int ztiltread[5]={0};// reads the tilt for the z axis
+int alarm=0; //variable to trigger the alarm
+void setup() //runs once at the beginning of the program 
+{
+  Serial.begin(9600); //begin serial port at 9600 baud
+  pinMode(13,OUTPUT); // set pin 13 as output
+  pinMode(12,OUTPUT); // set pin 12 as output
+}
+
+void loop() //loops indefintely 
+{
+  for (int i=0;i<5;i++) //reads te x axis 5 times and detects change
+  {
+    xtiltread[i]=digitalRead(A5); //place the current reading into xtiltread
+    Serial.print("x sensor: "); //for display
+    Serial.println(xtiltread[i]);
+    if (xtiltread[i]!=quake[i]) //compares the 2 to see if similiar
+    {
+      alarm = 0;
+      delay(5000); // end 
+	break; //to end the program of its not similiar
+    }
+    else
+    {
+      alarm = 1;
+      delay(5000);
+       }}
+  if (alarm==0){
+  for (int i=0;i<5;i++) //reads te x axis 5 times and detects change
+  {
+    ytiltread[i]=digitalRead(A4);
+    Serial.print("y sensor: ");
+    Serial.println(ytiltread[i]);
+    if (ytiltread[i]!=quake[i])
+    {
+      alarm = 0;
+      delay(5000);
+      break;
+    }
+    else
+    {
+      alarm = 1;
+      delay(5000);
+    }}}
+    if (alarm==0){
+  for (int i=0;i<5;i++)//reads te x axis 5 times and detects change
+  {
+    ztiltread[i]=digitalRead(A3);
+    Serial.print("z sensor: ");
+    Serial.println(ztiltread[i]);
+    if (ztiltread[i]!=quake[i])
+    {
+      alarm = 0;
+      delay(5000);
+      break;
+    }
+    else
+    {
+      alarm = 1;
+      delay(5000);
+    }}}
+    if (alarm==1)
+    {
+      for (int i=0;i<20;i++){ //repeats the alarm 20 times
+      digitalWrite(13,HIGH); //turns on the LED
+      digitalWrite(12,LOW); //turn off the LED
+      tone (6,1000,200); //set oupput to pin 6 with no tone
+      delay(200); //delay 200 miliseconds
+      digitalWrite(12,HIGH); 
+      digitalWrite(13,LOW);
+      noTone(6); //no tone 
+        delay(200);}}
+  
+}
